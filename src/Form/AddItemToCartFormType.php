@@ -14,14 +14,11 @@ use Symfony\Component\Routing\RouterInterface;
 
 class AddItemToCartFormType extends AbstractType
 {
-    private $router;
-
-    public function __construct(RouterInterface $router)
+    public function __construct(private readonly RouterInterface $router)
     {
-        $this->router = $router;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $product = $options['product'];
         if (!$product instanceof Product) {
@@ -53,7 +50,7 @@ class AddItemToCartFormType extends AbstractType
         }
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => CartItem::class,

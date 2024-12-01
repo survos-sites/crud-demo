@@ -8,73 +8,51 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\ProductRepository::class)]
 class Product
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     * @Groups("product:read")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    #[Groups('product:read')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups("product:read")
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Groups('product:read')]
+    #[Assert\NotBlank]
     private $name;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Groups("product:read")
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups('product:read')]
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=20)
-     * @Assert\NotBlank
-     */
+    #[ORM\Column(type: 'string', length: 20)]
+    #[Assert\NotBlank]
     private $brand = 'Low End Luxury';
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: 'float', nullable: true)]
     private $weight;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @Groups("product:read")
-     * @Assert\GreaterThan(0)
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'integer')]
+    #[Groups('product:read')]
+    #[Assert\GreaterThan(0)]
+    #[Assert\NotBlank]
     private $price;
 
-    /**
-     * @ORM\Column(type="integer")
-     * @Assert\GreaterThanOrEqual(0)
-     */
+    #[ORM\Column(type: 'integer')]
+    #[Assert\GreaterThanOrEqual(0)]
     private $stockQuantity = 0;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotBlank
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Category::class, inversedBy: 'products')]
+    #[Assert\NotBlank]
     private $category;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Color")
-     */
+    #[ORM\ManyToMany(targetEntity: \App\Entity\Color::class)]
     private $colors;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
     private $imageFilename = 'floppy-disc.png';
 
     public function __construct()
@@ -219,9 +197,7 @@ class Product
         return $this;
     }
 
-    /**
-     * @Groups("product:read")
-     */
+    #[Groups('product:read')]
     public function getImageUrl(): string
     {
         return sprintf('/uploads/products/'.$this->imageFilename);

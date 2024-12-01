@@ -9,18 +9,17 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
-    private $passwordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(private UserPasswordHasherInterface $passwordEncoder)
     {
-        $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $colorRed = new Color('red', 'ff0000');
         $colorGreen = new Color('green', '00ff00');
@@ -62,8 +61,8 @@ class AppFixtures extends Fixture
             $product->setDescription($productData['description']);
             $product->setCategory($categories[$productData['category']]);
             $product->setImageFilename($productData['image']);
-            $product->setPrice(rand(10, 50) * 100);
-            $product->setStockQuantity(rand(10, 100));
+            $product->setPrice(random_int(10, 50) * 100);
+            $product->setStockQuantity(random_int(10, 100));
             $product->setBrand($brands[array_rand($brands)]);
 
             if ($productData['with_colors'] ?? false) {

@@ -14,13 +14,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CartController extends AbstractController
 {
-    /**
-     * @Route("/cart", name="app_cart")
-     */
+    #[Route(path: '/cart', name: 'app_cart')]
     public function shoppingCart(CartStorage $cartStorage, ProductRepository  $productRepository): Response
     {
         $featuredProduct = $productRepository->findFeatured();
@@ -35,9 +33,7 @@ class CartController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/cart/_list", name="_app_cart_list")
-     */
+    #[Route(path: '/cart/_list', name: '_app_cart_list')]
     public function _shoppingCartList(CartStorage $cartStorage)
     {
         return $this->render('cart/_cartList.html.twig', [
@@ -45,9 +41,7 @@ class CartController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/product/{id}", name="app_cart_add_item", methods={"POST"})
-     */
+    #[Route(path: '/product/{id}', name: 'app_cart_add_item', methods: ['POST'])]
     public function addItemToCart(Product $product, Request $request, CategoryRepository $categoryRepository, CartStorage $cartStorage)
     {
         $addToCartForm = $this->createForm(AddItemToCartFormType::class, null, [
@@ -74,9 +68,7 @@ class CartController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/cart/remove/{productId}/{colorId?}", name="app_cart_remove_item", methods={"POST"})
-     */
+    #[Route(path: '/cart/remove/{productId}/{colorId?}', name: 'app_cart_remove_item', methods: ['POST'])]
     public function removeItemToCart($productId, $colorId, Request $request, CartStorage $cartStorage, ProductRepository $productRepository, ColorRepository $colorRepository)
     {
         /** @var Product|null $product */

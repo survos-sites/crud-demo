@@ -5,33 +5,13 @@ namespace App\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-/**
- * @Assert\Callback("validateColor")
- */
+#[Assert\Callback('validateColor')]
 class CartItem
 {
-    /**
-     * @var Product
-     */
-    private $product;
-
-    /**
-     * @var Color|null
-     */
-    private $color;
-
-    /**
-     * @Assert\GreaterThanOrEqual(1, message="Enter a quantity greater than 0")
-     * @Assert\NotBlank(message="Please enter a valid quantity")
-     * @var int
-     */
-    private $quantity = 1;
-
-    public function __construct(Product $product, int $quantity = 1, Color $color = null)
+    public function __construct(private readonly Product $product, #[Assert\GreaterThanOrEqual(1, message: 'Enter a quantity greater than 0')]
+    #[Assert\NotBlank(message: 'Please enter a valid quantity')]
+    private int $quantity = 1, private ?\App\Entity\Color $color = null)
     {
-        $this->product = $product;
-        $this->quantity = $quantity;
-        $this->color = $color;
     }
 
     public function getProduct(): Product
@@ -44,7 +24,7 @@ class CartItem
         return $this->color;
     }
 
-    public function setColor(Color $color)
+    public function setColor(Color $color): void
     {
         $this->color = $color;
     }
@@ -54,12 +34,12 @@ class CartItem
         return $this->quantity;
     }
 
-    public function setQuantity(?int $quantity)
+    public function setQuantity(?int $quantity): void
     {
         $this->quantity = $quantity;
     }
 
-    public function increaseQuantity(int $quantity)
+    public function increaseQuantity(int $quantity): void
     {
         $this->quantity += $quantity;
     }
@@ -72,7 +52,7 @@ class CartItem
         return $thisKey === $thatKey;
     }
 
-    public function validateColor(ExecutionContextInterface $context)
+    public function validateColor(ExecutionContextInterface $context): void
     {
         if (!$this->product->hasColors()) {
             return;

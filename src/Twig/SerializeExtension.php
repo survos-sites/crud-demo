@@ -8,17 +8,14 @@ use Twig\TwigFilter;
 
 class SerializeExtension extends AbstractExtension
 {
-    private $serializer;
-
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(private readonly SerializerInterface $serializer)
     {
-        $this->serializer = $serializer;
     }
 
     public function getFilters()
     {
         return [
-            new TwigFilter('serialize', [$this, 'serialize']),
+            new TwigFilter('serialize', $this->serialize(...)),
         ];
     }
 

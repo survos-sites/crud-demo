@@ -3,15 +3,13 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
 class AdminController extends AbstractController
 {
-    /**
-     * @Route("/admin", name="admin_dashboard")
-     */
+    #[Route(path: '/admin', name: 'admin_dashboard')]
     public function dashboard(ChartBuilderInterface $chartBuilder)
     {
         $chart = $chartBuilder->createChart(Chart::TYPE_LINE);

@@ -4,32 +4,18 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ColorRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\ColorRepository::class)]
 class Color
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=6)
-     */
-    private $hexColor;
-
-    public function __construct(string $name, string $hexColor)
+    public function __construct(#[ORM\Column(type: 'string', length: 100)]
+    private string $name, #[ORM\Column(type: 'string', length: 6)]
+    private string $hexColor)
     {
-        $this->name = $name;
-        $this->hexColor = $hexColor;
     }
 
     public function getId(): ?int

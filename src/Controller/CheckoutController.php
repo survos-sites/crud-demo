@@ -14,13 +14,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class CheckoutController extends AbstractController
 {
-    /**
-     * @Route("/checkout", name="app_checkout")
-     */
+    #[Route(path: '/checkout', name: 'app_checkout')]
     public function checkout(ProductRepository $productRepository, Request $request, CartStorage $cartStorage, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $checkoutForm = $this->createForm(CheckoutFormType::class);
@@ -51,9 +49,7 @@ class CheckoutController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/confirmation", name="app_confirmation")
-     */
+    #[Route(path: '/confirmation', name: 'app_confirmation')]
     public function confirmation(SessionInterface $session, PurchaseRepository $purchaseRepository): Response
     {
         $purchaseId = $session->get('purchase_id');

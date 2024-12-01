@@ -10,15 +10,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CartStorage
 {
-    private $session;
-    private $productRepository;
-    private $colorRepository;
-
-    public function __construct(SessionInterface $session, ProductRepository $productRepository, ColorRepository  $colorRepository)
+    public function __construct(private readonly SessionInterface $session, private readonly ProductRepository $productRepository, private readonly ColorRepository  $colorRepository)
     {
-        $this->session = $session;
-        $this->productRepository = $productRepository;
-        $this->colorRepository = $colorRepository;
     }
 
     public function getCart(): ?Cart
@@ -53,12 +46,12 @@ class CartStorage
         return $this->getCart() ?: new Cart();
     }
 
-    public function save(Cart $cart)
+    public function save(Cart $cart): void
     {
         $this->session->set(self::getKey(), $cart);
     }
 
-    public function clearCart()
+    public function clearCart(): void
     {
         $this->session->remove(self::getKey());
     }

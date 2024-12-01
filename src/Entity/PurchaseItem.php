@@ -4,38 +4,26 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\PurchaseItemRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\PurchaseItemRepository::class)]
 class PurchaseItem
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Purchase", inversedBy="purchaseItems")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Purchase::class, inversedBy: 'purchaseItems')]
     private $purchase;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Product::class)]
     private $product;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Color")
-     */
+    #[ORM\ManyToOne(targetEntity: \App\Entity\Color::class)]
     private $color;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $quantity;
 
     public function getId(): ?int

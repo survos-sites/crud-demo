@@ -12,17 +12,14 @@ use Twig\TwigFunction;
 
 class CartExtension extends AbstractExtension
 {
-    private $cartStorage;
-
-    public function __construct(CartStorage $cartStorage)
+    public function __construct(private readonly CartStorage $cartStorage)
     {
-        $this->cartStorage = $cartStorage;
     }
 
     public function getFunctions()
     {
         return [
-            new TwigFunction('count_cart_items', [$this, 'countCartItems']),
+            new TwigFunction('count_cart_items', $this->countCartItems(...)),
         ];
     }
 

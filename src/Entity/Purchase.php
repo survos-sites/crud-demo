@@ -7,68 +7,46 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\PurchaseRepository")
- */
+#[ORM\Entity(repositoryClass: \App\Repository\PurchaseRepository::class)]
 class Purchase
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please, enter your full name!")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Please, enter your full name!')]
     private $customerName;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please, enter your email address!")
-     * @Assert\Email(message="Please, enter a valid email!")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Please, enter your email address!')]
+    #[Assert\Email(message: 'Please, enter a valid email!')]
     private $customerEmail;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please, enter your street address!")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Please, enter your street address!')]
     private $customerAddress;
 
-    /**
-     * @ORM\Column(type="string", length=20, nullable=true)
-     * @Assert\NotBlank(message="Please, enter your ZIP code!")
-     */
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    #[Assert\NotBlank(message: 'Please, enter your ZIP code!')]
     private $customerZip;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Please, enter your City!")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Please, enter your City!')]
     private $customerCity;
 
-    /**
-     * @ORM\Column(type="string", length=20, nullable=true)
-     * @Assert\NotBlank(message="Please, provide a phone number!")
-     */
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
+    #[Assert\NotBlank(message: 'Please, provide a phone number!')]
     private $customerPhone;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     private $isShipped = false;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PurchaseItem", mappedBy="purchase", orphanRemoval=true, cascade={"persist"})
-     */
+    #[ORM\OneToMany(targetEntity: \App\Entity\PurchaseItem::class, mappedBy: 'purchase', orphanRemoval: true, cascade: ['persist'])]
     private $purchaseItems;
 
     public function __construct()
@@ -209,7 +187,7 @@ class Purchase
         return $this;
     }
 
-    public function addItemsFromCart(Cart $cart)
+    public function addItemsFromCart(Cart $cart): void
     {
         foreach ($cart->getItems() as $item) {
             $this->addPurchaseItem($item->createPurchaseItem());
@@ -218,9 +196,7 @@ class Purchase
 
     public function getTotal(): int
     {
-        return array_reduce($this->purchaseItems->toArray(), function($accumulator, PurchaseItem $item) {
-            return $accumulator + $item->getTotal();
-        }, 0);
+        return array_reduce($this->purchaseItems->toArray(), fn($accumulator, PurchaseItem $item) => $accumulator + $item->getTotal(), 0);
     }
 
     public function getTotalString(): string

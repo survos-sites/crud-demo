@@ -9,4 +9,5 @@
 import './styles/app.css';
 
 // start the Stimulus application
-import './bootstrap';
+import './bootstrap.js'
+import 'bootstrap/dist/css/bootstrap.min.css'

@@ -9,15 +9,13 @@ use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_homepage")
-     * @Route("/category/{id}", name="app_category")
-     */
+    #[Route(path: '/', name: 'app_homepage')]
+    #[Route(path: '/category/{id}', name: 'app_category')]
     public function index(Request $request, CategoryRepository $categoryRepository, ProductRepository $productRepository, Category $category = null): Response
     {
         $searchTerm = $request->query->get('q');
@@ -40,9 +38,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/product/{id}", name="app_product", methods={"GET"})
-     */
+    #[Route(path: '/product/{id}', name: 'app_product', methods: ['GET'])]
     public function showProduct(Product $product, CategoryRepository $categoryRepository): Response
     {
         $addToCartForm = $this->createForm(AddItemToCartFormType::class, null, [
